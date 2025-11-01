@@ -1,6 +1,3 @@
-for i in range(5, 50, 5):
-    print(i)
-
 def progressaoAritmetica(a1, n , r):
     total = a1 + (n -1) * r
     return(total)
