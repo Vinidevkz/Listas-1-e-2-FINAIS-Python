@@ -19,8 +19,10 @@ carregarDadosLivros()
 
 meusLivros = []
 
+generosCount = {}
+
 livros = [
-    {"Nome": "Harry Potter", "Disponibilidade": True, "Usuario": ""}, {"Nome": "O Senhor dos Anéis", "Disponibilidade": True, "Usuario": ""}, {"Nome": "O Pequeno Príncipe", "Disponibilidade": True, "Usuario": ""}, {"Nome": "Percy Jackson", "Disponibilidade": True, "Usuario": ""}
+    {"Nome": "Harry Potter", "Disponibilidade": True, "Genero": "Fantasia", "Usuario": ""}, {"Nome": "O Senhor dos Anéis", "Disponibilidade": True, "Genero": "Fantasia", "Usuario": ""}, {"Nome": "O Pequeno Príncipe", "Disponibilidade": True, "Genero": "Fantasia", "Usuario": ""}, {"Nome": "Percy Jackson", "Disponibilidade": True, "Genero": "Fantasia", "Usuario": ""}, {"Nome": "IT: A Coisa", "Disponibilidade": True, "Genero": "Terror", "Usuario": ""}
 ]
 
 def listarLivros():
@@ -43,7 +45,12 @@ def pegarLivro(usuario, livroIndice):
 
         meusLivros.append(livroPego)
 
+        genero = livros[livroIndice]["Genero"]
+
+        generosCount[genero] = generosCount.get(genero, 0) + 1
+
         print(f"{usuario} pegou o livro: {livroPego}\n")
+
     except:
         print("Houve um erro ao pegar o livro, tente novamente mais tarde.")
 
@@ -59,11 +66,19 @@ def devolverLivro(usuario, nomeLivro):
     except:
         print("Não encontrei esse livro como emprestado por esse usuário!\n")
 
+def generoMaisBuscado():
+    if not generosCount:
+        return "\nNão há dados para busca.\n"
+    
+    generoMaisBuscado = max(generosCount, key=generosCount.get)
+    return f"\nGênero mais buscado: {generoMaisBuscado}, pesquisado {generosCount[generoMaisBuscado]}x.\n"
+
+
 opcao = 1        
 
 while opcao != 0:
     print("###BEM-VINDO(A) A BIBLIOTECA###")
-    print("Digite os seguintes numeros para realizar uma ação: \n 1: Listar todos os livros disponíveis \n 2: Pegar um livro para você \n 3: Devolver um livro \n 4: Ver meus livros \n 0: Sair do programa")
+    print("Digite os seguintes numeros para realizar uma ação: \n 1: Listar todos os livros disponíveis \n 2: Pegar um livro para você \n 3: Devolver um livro \n 4: Ver meus livros \n 5: Ver gêneros mais buscados \n 0: Sair do programa")
 
     opcao = int(input("Digite um número: "))
 
@@ -87,6 +102,10 @@ while opcao != 0:
         print("Seus livros: ")
 
         print("\n", meusLivros, "\n")
+    elif opcao == 5:
+        print("Gênero mais buscado:")
+
+        print(generoMaisBuscado())
     elif opcao == 0:
         opcao = 0
         print("---FIM DO PROGRAMA---")
