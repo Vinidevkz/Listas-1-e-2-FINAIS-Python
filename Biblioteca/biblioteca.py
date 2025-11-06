@@ -1,3 +1,22 @@
+import json
+
+def salvarDadosLivros():
+    with open("dadosDaBiblioteca.json", "w") as f:
+        json.dump({"livros": livros, "meusLivros": meusLivros}, f)
+
+def carregarDadosLivros():
+    global livros, meusLivros
+    try:
+        with open("dadosBiblioteca.json", "r") as f:
+            dados = json.load(f)
+            livros = dados["livros"]
+            meusLivros = dados["meusLivros"]
+    except:
+        pass
+
+carregarDadosLivros()
+
+
 meusLivros = []
 
 livros = [
@@ -12,15 +31,15 @@ def listarLivros():
 
     print()
 
-def pegarLivro(usuario, bookIndice):
+def pegarLivro(usuario, livroIndice):
     try:
-        if livros[bookIndice]["Disponibilidade"] == False:
+        if livros[livroIndice]["Disponibilidade"] == False:
             print("Esse livro já está emprestado!\n")
             return
         
-        livroPego = livros[bookIndice]["Nome"]
-        livros[bookIndice]["Disponibilidade"] = False
-        livros[bookIndice]["Usuario"] = usuario
+        livroPego = livros[livroIndice]["Nome"]
+        livros[livroIndice]["Disponibilidade"] = False
+        livros[livroIndice]["Usuario"] = usuario
 
         meusLivros.append(livroPego)
 
@@ -55,12 +74,14 @@ while opcao != 0:
         indiceDoLivro = int(input("Digite o indice do livro que deseja pegar na lista(de 0 a 3): "))
 
         pegarLivro(nome, indiceDoLivro)
+        salvarDadosLivros()
         print("-------")
     elif opcao == 3:
         nome = str(input("Digite seu nome de usuario: "))
         indiceDoLivro = str(input("Digite o nome do livro que deseja DEVOLVER: "))
 
         devolverLivro(nome, indiceDoLivro)
+        salvarDadosLivros()
         print("-------")
     elif opcao == 4:
         print("Seus livros: ")
